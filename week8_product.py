@@ -15,6 +15,13 @@ class Product:
     def display_information(self):
         print(f"ID: {self.__product_id}| Name: {self.__product_name} | Price: ${self.__product_price:.2f} | Stock: {self.__product_quantity}")
 
+    def to_dict(self):
+        return {
+            "name": self.__product_name,
+            "price": self.__product_price,  
+            "quantity": self.__product_quantity
+        }
+
     def update_stock(self, quantity):
         if quantity >= 0:
             self.__product_quantity = quantity
@@ -23,8 +30,8 @@ class Product:
             print("Invalid stock, stock cannot be negative.")
 
         
-
-
+# p = Product("P001", "Laptop", 1200.00, 15)
+# print(p.to_dict())
 # p = Product("P001", "Laptop", 1200.00, 10)
 # p.display_information()
 # p.update_stock(15)

@@ -18,5 +18,10 @@
         "name": "Webcam",
         "price": 67.0,
         "quantity": 20
+    },
+    "P005": {
+        "name": "ThumbDrive",
+        "price": 5.0,
+        "quantity": 20
     }
 }
