@@ -1,7 +1,7 @@
-From python:3.11-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY modular_auditor.py .
+COPY . .
 
-CMD ["python", "modular_auditor.py"]
+CMD ["python", "week8_main.py"]
