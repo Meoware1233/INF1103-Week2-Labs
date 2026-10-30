@@ -1,4 +1,4 @@
-# 2601582 INF1103 Week 8 Lab
+# 2601582 INF1103 Week 9 Lab
 import json
 from week8_product import Product
 from week8_inventory import Inventory
