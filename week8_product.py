@@ -33,6 +33,8 @@ class Product(ABC):
     def get_fulfilment_info(self):
         pass
 
+    
+
         
 # p = Product("P001", "Laptop", 1200.00, 15)
 # print(p.to_dict())
