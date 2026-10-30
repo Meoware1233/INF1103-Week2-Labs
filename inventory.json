@@ -1,27 +1,16 @@
 {
-    "P001": {
-        "name": "Laptop",
-        "price": 1200.0,
-        "quantity": 10
-    },
-    "P002": {
-        "name": "Mouse",
-        "price": 25.0,
-        "quantity": 20
-    },
     "P003": {
-        "name": "Keyboard",
-        "price": 24.99,
-        "quantity": 15
+        "name": "Desktop",
+        "price": 2000.0,
+        "quantity": 10,
+        "type": "physical",
+        "weight": 10.0
     },
     "P004": {
-        "name": "Webcam",
-        "price": 67.0,
-        "quantity": 20
-    },
-    "P005": {
-        "name": "ThumbDrive",
-        "price": 5.0,
-        "quantity": 20
+        "name": "anti-virus",
+        "price": 50.0,
+        "quantity": 20,
+        "type": "digital",
+        "download_size": 500.0
     }
 }

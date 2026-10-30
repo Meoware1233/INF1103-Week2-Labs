@@ -1,3 +1,4 @@
+# 2601582 INF1103 Week 9 Lab
 from week8_product import Product
 
 class DigitalProduct(Product):
@@ -11,6 +12,12 @@ class DigitalProduct(Product):
 
     def get_fulfilment_info(self):
         return "This product is delivered digitally."
+
+    def to_dict(self):
+        data = super().to_dict()
+        data["type"] = "digital"
+        data["download_size"] = self.__download_size
+        return data
 
 
 # test = DigitalProduct("P002", "anti-virus", 50, 20, 500)
