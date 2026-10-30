@@ -1,7 +1,7 @@
 # 2601582 INF1103 Week 8 Lab
+from abc import ABC, abstractmethod
 
-
-class Product:
+class Product(ABC):
     def __init__(self, prodID, prodName, prodPrice, prodQuantity):
         self.__product_id = prodID
         self.__product_name = prodName
@@ -28,6 +28,10 @@ class Product:
             print(f"Stock updated successfully. New stock quantity: {self.__product_quantity}")
         else:
             print("Invalid stock, stock cannot be negative.")
+
+    @abstractmethod
+    def get_fulfilment_info(self):
+        pass
 
         
 # p = Product("P001", "Laptop", 1200.00, 15)
