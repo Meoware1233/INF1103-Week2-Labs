@@ -24,7 +24,8 @@ class Product(ABC):
         return {
             "name": self.__product_name,
             "price": self.__product_price,  
-            "quantity": self.__product_quantity
+            "quantity": self.__product_quantity,
+            "supplier": self.__supplier.to_dict()
         }
 
     def update_stock(self, quantity: int) -> None:

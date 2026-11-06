@@ -8,62 +8,139 @@ from week10_supplier import Supplier
 from week10_orderline import OrderLine
 from week10_order import Order
 
-# supplier = Supplier("5001", "Tech Pte Ltd", "sales@tech.com")
-# laptop = PhysicalProduct("P001", "Laptop", 1200.00, 15, 2.5, supplier)
-# game = DigitalProduct("P002", "Game", 59.90, 100, 500.0, supplier)
 
-# laptop.display_information()
-# game.display_information()
+def load_inventory() -> dict:
+    inventory = {}
+    try:
+        with open("inventory.json", "r") as file:
+            # Read line 1 and remove from file
+            inventory = json.load(file)
+            return inventory
+    except FileNotFoundError:
+        print("File not found, creating new json file.")
+        with open("inventory.json", "w") as file:
+            return inventory
+    except ValueError:
+        with open("inventory.json", "w") as file:
+                return inventory
 
-# del supplier
 
-# laptop.display_information()
-# game.display_information()
-# laptop.get_supplier().display_information()
+def save_inventory(inventory) -> None:
+    with open("inventory.json", "w") as file:
+        json.dump(inventory.all_to_dict(), file,indent=4)
+    print("Inventory sucessfully saved into inventory.json")
 
-# print(laptop.get_supplier() is game.get_supplier())   # expect True
+suppliers: dict[str, Supplier] = {}
 
-# ============================================================
+def get_valid_input(inventory: Inventory, suppliers: dict[str, Supplier]) -> None:
+    while True:
+        print("")
+        print("1. Display All Products")
+        print("2. Add Products")
+        print("3. Update Products")
+        print("4. Search Products")
+        print("5. Save Inventory")
+        print("6. Exit")
+        choice = input("Enter option: ")
+        print("")
 
-# supplier = Supplier("5001", "Tech Pte Ltd", "sales@tech.com")
-# laptop = PhysicalProduct("P001", "Laptop", 1200.00, 15, 2.5, supplier)
+        if choice == '1':
+            inventory.display_all()
+        elif choice == '2':
+            while True:
+                try:
+                    print("Add new products")
+                    prodID = input("Product ID: ")
+                    prodName = input("Product Name: ")
+                    prodPrice = float(input("Price: $"))
+                    prodQuantity = int(input("Stock Quantity: "))
+                    supplier_id = input("Supplier ID: ")
+                    if supplier_id in suppliers:
+                        supplier = suppliers[supplier_id]          # reuse the existing one
+                    else:
+                        supplier_name = input("Supplier Name: ")
+                        supplier_email = input("Supplier Email: ")
+                        supplier = Supplier(supplier_id, supplier_name, supplier_email)
+                        suppliers[supplier_id] = supplier          # remember it
+                    product_type = input("Physical or digital? (p/d): ")
+                    if product_type == "p":
+                        weight = float(input("Weight (kg): "))
+                        product = PhysicalProduct(prodID, prodName, prodPrice, prodQuantity, weight, supplier)
+                        inventory.add_product(product)
+                        break
+                    elif product_type == "d":
+                        download_size = float(input("Download Size (MB): "))
+                        product = DigitalProduct(prodID, prodName, prodPrice, prodQuantity, download_size, supplier)
+                        inventory.add_product(product)
+                        break
+                    else:
+                        print("Invalid product type.")              
+                except ValueError:
+                    print("Invalid input. Please enter valid values.")
+                
 
-# inv_a = Inventory()
-# inv_b = Inventory()
+        elif choice == '3':
+            # Add code to update products here
+            print("Update Stock")
+            prodID = input("Enter Product ID: ")
+            product = inventory.find_product(prodID)
 
-# inv_a.add_product(laptop)
-# inv_a.remove_product("P001")
-# laptop.display_information()      # still works?
+            if product is None:
+                print("Product not found")
+            else:
+                try:
+                    new_quantity = int(input("Enter new quantity: "))
+                except ValueError:
+                    print("Invalid input. Please enter a whole number.")
+                else:
+                    product.update_stock(new_quantity)
 
-# inv_b.add_product(laptop)
-# inv_b.display_all()
 
-# print(inv_b.find_product("P001") is laptop)   # expect True
+        elif choice == '4':
+            # Add code to search products here
+            print("Search Product")
+            prodID = input("Enter Product ID: ")
+            product = inventory.find_product(prodID)
 
-# =================================
+            if product is None:
+                print("Product not found.")
 
-supplier = Supplier("5001", "Tech Pte Ltd", "sales@tech.com")
-laptop = PhysicalProduct("P001", "Laptop", 1200.00, 15, 2.5, supplier)
-game = DigitalProduct("P002", "Game", 59.90, 100, 500.0, supplier)
-order1 = Order("O001")
-order1.add_order_line(laptop, 2)
-order1.add_order_line(game, 1)
-# order1.display_information()
+            else:
+               product.display_information()
 
-order2 = Order("O002")
-order2.add_order_line(laptop, 1)   # same product, different order
-order2.display_information()
+                
 
-# print(order1.get_order_lines()[0].get_product() is order2.get_order_lines()[0].get_product())  # expect True
-# print(order1.get_order_lines()[0] is order2.get_order_lines()[0])                               # expect False
+        elif choice == '5':
+            save_inventory(inventory)
 
-# Same Product in both orders, but separate OrderLine objects
-line1 = order1.get_order_lines()[0]
-line2 = order2.get_order_lines()[0]
-print(line1.get_product() is line2.get_product())   # expect True  (1 shared Product)
-print(line1 is line2)                                # expect False (separate OrderLines)
+        elif choice == '6':
+            print("Exiting program.")
+            break
 
-# Remove a line through the Order, then check the product still works
-order1.remove_order_line("P002")
-order1.display_information()                         # only the laptop line left
-game.display_information()                           # game still works
+
+
+
+inventory = Inventory()
+data = load_inventory()
+for prod_id, details in data.items():
+    supplier_data = details["supplier"]
+    supplier_id = supplier_data["id"]
+    if supplier_id in suppliers:
+        supplier = suppliers[supplier_id]
+    else:
+        supplier = Supplier(supplier_id, supplier_data["name"], supplier_data["email"])
+        suppliers[supplier_id] = supplier
+
+    product_type = details.get("type")
+    if product_type == "physical":
+        product = PhysicalProduct(prod_id, details["name"], details["price"], details["quantity"], details["weight"], supplier)
+        inventory.add_product(product)
+    elif product_type == "digital":
+        product = DigitalProduct(prod_id, details["name"], details["price"], details["quantity"], details["download_size"], supplier)
+        inventory.add_product(product)
+    else:
+        print(f"Skipping {prod_id}: unknown product type.")
+
+get_valid_input(inventory, suppliers)
+
+

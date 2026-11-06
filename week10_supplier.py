@@ -1,8 +1,8 @@
 class Supplier:
     def __init__(self, supplier_id: str, name: str, contact_email: str):
-        self.__supplier_id = supplier_id
-        self.__name = name
-        self.__contact_email = contact_email
+        self.__supplier_id: str = supplier_id
+        self.__name: str = name
+        self.__contact_email:str = contact_email
 
     def get_supplier_id(self) -> str:
         return self.__supplier_id
@@ -15,6 +15,13 @@ class Supplier:
 
     def display_information(self) -> None:
         print(f"ID: {self.__supplier_id}| Name: {self.__name}| Contact Email: {self.__contact_email}")
+
+    def to_dict(self) -> dict:
+        return {
+            "id": self.__supplier_id,
+            "name": self.__name,
+            "email": self.__contact_email
+        }
 
 # supplier1 = Supplier("5001", "Tech Pte Ltd", "sales@tech.com")
 # supplier1.display_information()

@@ -1,15 +1,25 @@
 {
-    "P003": {
-        "name": "Desktop",
+    "P001": {
+        "name": "computer",
         "price": 2000.0,
         "quantity": 10,
+        "supplier": {
+            "id": "S001",
+            "name": "Tan Ah Gao Pte Ltd",
+            "email": "sales@tag.com"
+        },
         "type": "physical",
-        "weight": 10.0
+        "weight": 2.0
     },
-    "P004": {
+    "P002": {
         "name": "anti-virus",
-        "price": 50.0,
-        "quantity": 20,
+        "price": 30.0,
+        "quantity": 40,
+        "supplier": {
+            "id": "S001",
+            "name": "Tan Ah Gao Pte Ltd",
+            "email": "sales@tag.com"
+        },
         "type": "digital",
         "download_size": 500.0
     }

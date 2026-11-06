@@ -4,6 +4,9 @@ class Inventory:
     def __init__(self):
         self.__products: list[Product] = []
 
+    def get_products(self) -> list[Product]:
+        return self.__products
+
     def add_product(self, product: Product) -> None:
         self.__products.append(product)  
 
