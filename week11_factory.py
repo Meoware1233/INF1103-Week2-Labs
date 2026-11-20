@@ -14,3 +14,5 @@ class ProductFactory:
             return DigitalProduct(product_id, name, price, stock_quantity, extra, supplier)
         else:
             raise ValueError(f"Unknown product type: {product_type}")
+
+        #print
